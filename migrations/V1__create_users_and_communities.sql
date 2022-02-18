@@ -2,7 +2,7 @@ create table users
 (
     id       serial
         constraint users_pk primary key,
-    username text not null
+    username varchar(255) not null
 );
 
 create table communities
