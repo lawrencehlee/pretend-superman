@@ -1,4 +1,4 @@
-package me.lawrencehlee.pretendsuperman.users
+package me.lawrencehlee.chilli.users
 
 import org.springframework.data.repository.CrudRepository
 

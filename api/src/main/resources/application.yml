@@ -1,5 +1,5 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/supe
+    url: jdbc:postgresql://localhost:5432/chilli
     username: postgres
     password: postgres

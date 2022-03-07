@@ -1,11 +1,11 @@
-package me.lawrencehlee.pretendsuperman
+package me.lawrencehlee.chilli
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-open class PretendSupermanApplication
+open class ChilliApplication
 
 fun main(args: Array<String>) {
-    runApplication<PretendSupermanApplication>(*args)
+    runApplication<ChilliApplication>(*args)
 }

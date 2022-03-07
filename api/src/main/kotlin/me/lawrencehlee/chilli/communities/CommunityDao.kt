@@ -1,4 +1,4 @@
-package me.lawrencehlee.pretendsuperman.communities
+package me.lawrencehlee.chilli.communities
 
 import org.springframework.jdbc.core.DataClassRowMapper
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate

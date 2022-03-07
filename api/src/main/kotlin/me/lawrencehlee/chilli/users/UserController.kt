@@ -1,7 +1,7 @@
-package me.lawrencehlee.pretendsuperman.users
+package me.lawrencehlee.chilli.users
 
-import me.lawrencehlee.pretendsuperman.communities.Community
-import me.lawrencehlee.pretendsuperman.communities.CommunityDao
+import me.lawrencehlee.chilli.communities.Community
+import me.lawrencehlee.chilli.communities.CommunityDao
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*

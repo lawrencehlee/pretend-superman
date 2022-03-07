@@ -1,4 +1,4 @@
-package me.lawrencehlee.pretendsuperman.communities
+package me.lawrencehlee.chilli.communities
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -18,7 +18,6 @@ class CommunityController(
 
     @PutMapping("{communityId}/users/{userId}")
     fun addUser(@PathVariable communityId: Int, @PathVariable userId: Int): ResponseEntity<Any> {
-        communityDao.addUser(communityId, userId)
         return ResponseEntity.noContent().build();
     }
 }

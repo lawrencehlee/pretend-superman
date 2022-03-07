@@ -1,4 +1,4 @@
-package me.lawrencehlee.pretendsuperman.communities
+package me.lawrencehlee.chilli.communities
 
 import org.springframework.data.repository.CrudRepository
 
