@@ -1,21 +1,15 @@
 create table users
 (
-    id       serial
-        constraint users_pk primary key,
+    id       bigserial primary key,
     username varchar(255) not null
 );
 
 create table communities
 (
-    id   serial
-        constraint communities_pk
-            primary key,
-    slug varchar(50) not null,
+    id   bigserial primary key,
+    slug varchar(50) not null unique,
     name text        not null
 );
-
-create unique index communities_slug_uindex
-    on communities (slug);
 
 create table users_communities
 (
@@ -30,4 +24,3 @@ create table users_communities
     constraint users_communities_pk
         primary key (user_id, community_id)
 );
-

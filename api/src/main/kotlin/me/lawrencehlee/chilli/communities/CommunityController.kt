@@ -6,10 +6,7 @@ import java.net.URI
 
 @RestController
 @RequestMapping("communities")
-class CommunityController(
-    private val communityRepository: CommunityRepository,
-    private val communityDao: CommunityDao
-) {
+class CommunityController(private val communityRepository: CommunityRepository) {
     @PostMapping
     fun create(@RequestBody community: Community): ResponseEntity<Community> {
         val created = communityRepository.save(community)
@@ -17,7 +14,8 @@ class CommunityController(
     }
 
     @PutMapping("{communityId}/users/{userId}")
-    fun addUser(@PathVariable communityId: Int, @PathVariable userId: Int): ResponseEntity<Any> {
+    fun addUser(@PathVariable communityId: Long, @PathVariable userId: Long): ResponseEntity<Any> {
+        communityRepository.addUser(communityId, userId)
         return ResponseEntity.noContent().build();
     }
 }
