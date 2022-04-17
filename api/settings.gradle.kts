@@ -1,1 +1,1 @@
-rootProject.name = "chilli"
+rootProject.name = "chilli-api"
