@@ -1,5 +1,7 @@
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/chilli
-    username: postgres
-    password: postgres
+micronaut:
+  application:
+    name: api
+netty:
+  default:
+    allocator:
+      max-order: 3

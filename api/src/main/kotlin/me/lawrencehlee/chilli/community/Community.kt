@@ -1,7 +1,7 @@
-package me.lawrencehlee.chilli.communities
+package me.lawrencehlee.chilli.community
 
 data class Community(
-    val id: Long?,
+    val id: Long,
     val slug: String,
     val name: String,
 )
