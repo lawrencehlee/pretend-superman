@@ -25,9 +25,7 @@ netty:
 
 datasources:
   default:
-    url: jdbc:postgresql://localhost:5432/chilli
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://postgres:postgres@localhost:5432/chilli
     driver-class-name: org.postgresql.Driver
 
 discord:
