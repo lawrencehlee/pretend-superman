@@ -1,16 +1,28 @@
 package me.lawrencehlee.chilli.user
 
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+import io.micronaut.http.HttpResponse
+import io.micronaut.http.annotation.Controller
+import io.micronaut.http.annotation.Get
+import io.micronaut.security.annotation.Secured
+import io.micronaut.security.rules.SecurityRule
+import me.lawrencehlee.chilli.discord.DiscordUserRepository
+import me.lawrencehlee.chilli.util.toNullable
+import java.security.Principal
 
-class UserController() {
-    private val logger: Logger = LoggerFactory.getLogger(this::class.java)
+@Secured(SecurityRule.IS_AUTHENTICATED)
+@Controller("api/users")
+class UserController(private val discordUserRepository: DiscordUserRepository) {
+    @Get("@me")
+    fun me(principal: Principal?): HttpResponse<Any> {
+        val userId = principal?.name?.toLong() ?: return HttpResponse.unauthorized()
 
-//    fun create(@RequestBody user: User): User {
-//        return userRepository.save(user)
-//    }
-//
-//    fun getCommunities(@PathVariable userId: Long): List<Community> {
-//        return communityRepository.queryByUserId(userId)
-//    }
+        val discordUser = discordUserRepository.findByUserId(userId).toNullable() ?: return HttpResponse.unauthorized()
+        return HttpResponse.ok(
+            DisplayUser(
+                discordUser.user.id!!,
+                discordUser.user.username,
+                "${discordUser.username}#${discordUser.discriminator}"
+            )
+        )
+    }
 }

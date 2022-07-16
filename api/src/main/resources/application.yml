@@ -1,7 +1,37 @@
 micronaut:
   application:
     name: api
+  server:
+    netty:
+      log-level: debug
+    http-version: 2.0
+  security:
+    authentication: cookie
+    token:
+      jwt:
+        signatures:
+          secret:
+            generator:
+              secret: override-me
+              jws-algorithm: HS256
+        cookie:
+          enabled: true
+          cookie-same-site: Strict
+
 netty:
   default:
     allocator:
       max-order: 3
+
+datasources:
+  default:
+    url: jdbc:postgresql://localhost:5432/chilli
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+discord:
+  client-id:
+  client-secret:
+  redirect-uri: http://localhost:8080/api/oauth2/discord/redirect
+  post-auth-base-redirect-uri: http://localhost:3000

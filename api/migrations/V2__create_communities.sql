@@ -1,9 +1,3 @@
-create table users
-(
-    id       bigserial primary key,
-    username varchar(255) not null
-);
-
 create table communities
 (
     id   bigserial primary key,

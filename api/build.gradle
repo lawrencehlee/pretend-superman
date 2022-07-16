@@ -2,6 +2,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.6.20"
     id("org.jetbrains.kotlin.kapt") version "1.6.20"
     id("org.jetbrains.kotlin.plugin.allopen") version "1.6.10"
+    id("org.jetbrains.kotlin.plugin.jpa") version "1.6.20"
     id("com.github.johnrengelman.shadow") version "7.1.2"
     id("io.micronaut.application") version "3.3.2"
 }
@@ -14,11 +15,18 @@ repositories {
 }
 
 dependencies {
+    annotationProcessor("io.micronaut.security:micronaut-security-annotations")
+    implementation 'io.projectreactor:reactor-core:3.4.16'
+    implementation 'dev.kord:kord-rest:0.7.4'
+    implementation 'io.micronaut.security:micronaut-security-jwt'
     kapt("io.micronaut:micronaut-http-validation")
+    kapt("io.micronaut:micronaut-inject-java")
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-jackson-databind")
     implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
+    kapt("io.micronaut.data:micronaut-data-processor:3.3.0")
+    implementation("io.micronaut.data:micronaut-data-hibernate-jpa:3.3.0")
     implementation("jakarta.annotation:jakarta.annotation-api")
     implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
@@ -26,6 +34,9 @@ dependencies {
     implementation("io.micronaut:micronaut-validation")
 
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
+    runtimeOnly("io.micronaut:micronaut-core")
+    runtimeOnly("io.micronaut.sql:micronaut-jdbc-hikari")
+    runtimeOnly("org.postgresql:postgresql")
 
 }
 
@@ -59,4 +70,6 @@ micronaut {
     }
 }
 
-
+allOpen {
+    annotation("jakarta.inject.*")
+}
