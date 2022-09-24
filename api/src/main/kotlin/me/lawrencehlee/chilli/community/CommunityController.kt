@@ -1,25 +1,24 @@
 package me.lawrencehlee.chilli.community
 
+import io.micronaut.http.HttpStatus
+import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
+import io.micronaut.http.annotation.Post
+import io.micronaut.security.annotation.Secured
+import io.micronaut.security.rules.SecurityRule
 
+@Secured(SecurityRule.IS_ANONYMOUS)
 @Controller("communities")
-class CommunityController() {
+class CommunityController(private val communityRepository: CommunityRepository) {
     @Get
-    fun index(): Any {
-        return object {
-            val hello = "world"
-        }
+    fun query(): Iterable<Community> {
+        return communityRepository.findAll()
     }
 
-//    fun create(@RequestBody community: Community): ResponseEntity<Community> {
-//        val created = communityRepository.save(community)
-//        return ResponseEntity.created(URI("/communities/${created.id}")).body(created)
-//    }
-
-//    @PutMapping("{communityId}/users/{userId}")
-//    fun addUser(@PathVariable communityId: Long, @PathVariable userId: Long): ResponseEntity<Any> {
-//        communityRepository.addUser(communityId, userId)
-//        return ResponseEntity.noContent().build();
-//    }
+    @Post
+    fun create(@Body community: Community): HttpStatus {
+        communityRepository.save(community)
+        return HttpStatus.CREATED
+    }
 }

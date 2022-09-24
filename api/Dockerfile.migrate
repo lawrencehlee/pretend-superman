@@ -1,7 +1,0 @@
-FROM amacneil/dbmate:latest
-
-WORKDIR /migrate
-COPY db db
-
-#ENTRYPOINT ["/usr/local/bin/dbmate", "up"]
-ENTRYPOINT ["sh"]
