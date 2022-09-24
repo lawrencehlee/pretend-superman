@@ -20,7 +20,7 @@ async function login() {
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
-        <a v-if="!myUserStore.me" href="#" @click="login">Login with Discord</a>
+        <a v-if="!myUserStore.me" href="#" @click="login">Login</a>
         <a v-if="myUserStore.me" href="#" @click="logout"> Logout </a>
       </nav>
     </div>

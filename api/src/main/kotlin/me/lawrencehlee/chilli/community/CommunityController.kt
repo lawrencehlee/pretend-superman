@@ -9,7 +9,7 @@ import io.micronaut.security.annotation.Secured
 import io.micronaut.security.rules.SecurityRule
 
 @Secured(SecurityRule.IS_ANONYMOUS)
-@Controller("communities")
+@Controller("api/communities")
 class CommunityController(private val communityRepository: CommunityRepository) {
     @Get
     fun query(): Iterable<Community> {

@@ -37,3 +37,6 @@ out/
 
 # Env files
 .env
+
+# Supabase config (has secrets!)
+supabase/config.toml
