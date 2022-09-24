@@ -1,11 +1,12 @@
 <script lang="ts" setup>
-import { useMyUserStore } from "@/stores/my-user";
+import { useUserStore } from "@/stores/user-store";
 
-const myUserStore = useMyUserStore();
+const userStore = useUserStore();
 </script>
 
 <template>
   <main>
-    <div v-if="myUserStore.me">{{ myUserStore.me }}</div>
+    <div v-if="userStore.me">{{ userStore.me }}</div>
+    <div v-if="!userStore.me">Not logged in</div>
   </main>
 </template>
