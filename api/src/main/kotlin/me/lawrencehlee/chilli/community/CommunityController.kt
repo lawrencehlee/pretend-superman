@@ -6,13 +6,18 @@ import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
 import io.micronaut.security.annotation.Secured
+import io.micronaut.security.authentication.Authentication
 import io.micronaut.security.rules.SecurityRule
+import org.slf4j.LoggerFactory
 
-@Secured(SecurityRule.IS_ANONYMOUS)
+@Secured(SecurityRule.IS_AUTHENTICATED)
 @Controller("api/communities")
 class CommunityController(private val communityRepository: CommunityRepository) {
+    private val logger = LoggerFactory.getLogger(this::class.java)
+
     @Get
-    fun query(): Iterable<Community> {
+    fun query(authentication: Authentication): Iterable<Community> {
+        logger.info(authentication.toString())
         return communityRepository.findAll()
     }
 
