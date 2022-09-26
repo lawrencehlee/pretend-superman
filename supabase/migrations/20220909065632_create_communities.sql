@@ -1,6 +1,3 @@
-create schema chilli;
-set search_path to chilli, public, extensions;
-
 create table communities
 (
     id         integer primary key generated always as identity,
