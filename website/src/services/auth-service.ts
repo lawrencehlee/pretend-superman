@@ -1,12 +1,8 @@
-import { createClient, type User } from "@supabase/supabase-js";
+import type { User } from "@supabase/supabase-js";
 import { unknownError } from "@/services/errors";
+import { supabase } from "@/services/supabase";
 
 export { login, logout, me };
-
-const supabase = createClient(
-  "http://localhost:54321",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24ifQ.625_WdcF3KHqz5amU0x2X5WWHP-OEs_4qj0ssLNHzTs"
-);
 
 async function login() {
   const { user, session, error } = await supabase.auth.signIn({
