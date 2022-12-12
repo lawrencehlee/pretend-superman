@@ -39,7 +39,7 @@ watch(
   <BreadcrumbTrail :crumbs="crumbs"></BreadcrumbTrail>
   <div v-if="!community">Not found TODO</div>
   <div v-if="community">
-    <PageTitle :text="community.name">
+    <PageTitle :text="community.name" :suffix-subscript="community.slug">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         class="icon icon-tabler icon-tabler-social inline"
@@ -62,5 +62,24 @@ watch(
         <line x1="17.3" y1="17.8" x2="14.5" y2="15.8" />
       </svg>
     </PageTitle>
+    <PageSubtitle text="Members"></PageSubtitle>
+    <table class="min-w-full max-w-full">
+      <thead class="bg-slate-300 border-b rounded-md">
+        <tr class="text-left">
+          <th class="px-2">Discord username</th>
+          <th class="px-2">Role</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="bg-slate-100 border-b">
+          <td class="px-2">swingapplesddddddddddddddddddddd#5009</td>
+          <td class="px-2">Admin</td>
+        </tr>
+        <tr>
+          <td>swingapples#509</td>
+          <td>Admin</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>

@@ -6,6 +6,7 @@ import * as MembersService from "@/services/members-service";
 import TextInput from "@/components/TextInput.vue";
 import CancelButton from "@/components/CancelButton.vue";
 import CreateButton from "@/components/CreateButton.vue";
+import PageSubtitle from "@/components/PageSubtitle.vue";
 
 const emit = defineEmits(["created", "cancelled"]);
 
@@ -23,7 +24,7 @@ async function create() {
 </script>
 
 <template>
-  <h2 class="text-2xl font-bold py-2">Create community</h2>
+  <PageSubtitle text="Create community"></PageSubtitle>
   <form>
     <TextInput
       label="Slug"
