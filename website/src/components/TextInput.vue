@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import SubscriptText from "@/components/SubscriptText.vue";
+
 defineProps<{
   modelValue: string;
   label: string;
@@ -17,7 +19,7 @@ defineEmits<{
   <div class="mb-3">
     <label class="block mb-1">
       {{ label }}
-      <span v-if="required" class="text-xs text-zinc-700">(required)</span>
+      <SubscriptText text="required"></SubscriptText>
     </label>
     <input
       :value="modelValue"
