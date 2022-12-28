@@ -1,13 +1,13 @@
 import { supabase } from "@/services/supabase";
 import { unknownError } from "@/services/errors";
+import { camelizeKeys } from "humps";
 
 export { listMine, create, get, type Community };
 
 interface Community {
   id?: number;
-  slug: string;
-  name: string;
-  createdAt?: Date;
+  slug?: string;
+  name?: string;
 }
 
 async function listMine(): Promise<Community[]> {
@@ -19,7 +19,7 @@ async function listMine(): Promise<Community[]> {
     unknownError(error);
     return [];
   }
-  return data;
+  return camelizeKeys(data) as Community[];
 }
 
 async function create(community: Community): Promise<Community> {
@@ -30,7 +30,7 @@ async function create(community: Community): Promise<Community> {
   if (error) {
     throw error;
   }
-  return data[0];
+  return camelizeKeys(data[0]);
 }
 
 async function get(slug: string): Promise<Community | null> {
@@ -45,5 +45,5 @@ async function get(slug: string): Promise<Community | null> {
   if (data?.length !== 1) {
     return null;
   }
-  return data[0];
+  return camelizeKeys(data[0]);
 }

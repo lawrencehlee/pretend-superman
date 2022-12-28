@@ -1,12 +1,18 @@
 import { supabase } from "@/services/supabase";
+import { unknownError } from "@/services/errors";
+import { camelizeKeys } from "humps";
 
-export { type Member, joinAsAdmin };
+export { type Member, joinAsAdmin, list };
 
 interface Member {
-  userId: number;
-  communityId: number;
-  role: string;
-  createdAt?: Date;
+  readonly userId: number;
+  readonly communityId: number;
+  readonly role: string;
+  readonly user: User;
+}
+
+interface User {
+  readonly discordFullName: string;
 }
 
 async function joinAsAdmin(communityId: number) {
@@ -18,4 +24,18 @@ async function joinAsAdmin(communityId: number) {
   if (error) {
     throw error;
   }
+}
+
+async function list(communityId: number): Promise<Member[]> {
+  const { data, error } = await supabase
+    .from("members")
+    .select("user_id, community_id, role, user:users!inner (discord_full_name)")
+    .eq("community_id", communityId);
+
+  if (error) {
+    unknownError(error);
+    return [];
+  }
+
+  return camelizeKeys(data) as Member[];
 }

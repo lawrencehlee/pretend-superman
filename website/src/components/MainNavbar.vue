@@ -36,7 +36,7 @@ async function login() {
         <a href="#" @click="login">Login</a>
       </NavbarLink>
       <NavbarLink v-if="userStore.me">
-        <a href="#" @click="logout"> Logout </a>
+        <a href="#" @click="logout">Logout</a>
       </NavbarLink>
     </nav>
   </header>

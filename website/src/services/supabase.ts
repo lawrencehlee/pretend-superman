@@ -1,6 +1,10 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
-export const supabase: SupabaseClient = createClient(
-  "http://localhost:54321",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6MTk4MzgxMjk5Nn0.EGIM96RAZx35lJzdJsyH-qQwv8Hdp7fsn3W0YpN81IU"
-);
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
+  throw Error("Missing required configuration");
+}
+
+export const supabase: SupabaseClient = createClient(supabaseUrl, supabaseKey);

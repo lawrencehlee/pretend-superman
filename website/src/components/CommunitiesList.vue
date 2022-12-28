@@ -3,9 +3,10 @@ import { onMounted, type Ref, ref } from "vue";
 import * as CommunitiesService from "@/services/communities-service";
 import CreateButton from "@/components/CreateButton.vue";
 import CreateCommunityForm from "@/components/CreateCommunityForm.vue";
-import HeaderOne from "@/components/PageTitle.vue";
 import type { Community } from "@/services/communities-service";
 import SubscriptText from "@/components/SubscriptText.vue";
+import PageTitle from "@/components/PageTitle.vue";
+import NormalLink from "@/components/NormalLink.vue";
 
 const communities: Ref<Community[]> = ref([]);
 const creating = ref(false);
@@ -52,10 +53,10 @@ async function postCreated() {
     <CreateButton @click="setCreating(true)">+ Create</CreateButton>
     <div v-if="communities.length > 0">
       <div v-for="community in communities" :key="community.id">
-        <RouterLink :to="`/communities/${community.slug}`">
+        <NormalLink :to="`/communities/${community.slug}`">
           <span class="text-xl">{{ community.name }}</span>
           <SubscriptText :text="community.slug"></SubscriptText>
-        </RouterLink>
+        </NormalLink>
       </div>
     </div>
     <div v-if="communities.length == 0">No communities found.</div>
