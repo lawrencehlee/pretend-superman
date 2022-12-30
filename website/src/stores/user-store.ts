@@ -11,10 +11,16 @@ export const useUserStore = defineStore("user", {
   actions: {
     async updateMe() {
       this.me = await AuthService.me();
-      // Crazy hack cause Supabase CLI doesn't immediately return a user after discord redirect
+    },
+    async updateMePostLogin(user: User) {
+      this.me = user;
+    },
+    async updateMeWithRetry() {
+      await this.updateMe();
       if (!this.me) {
-        await new Promise((r) => setTimeout(r, 500));
-        this.me = await AuthService.me();
+        // Crazy hack cause Supabase CLI doesn't immediately return a user after discord redirect
+        await new Promise((r) => setTimeout(r, 100));
+        await this.updateMe();
       }
     },
   },

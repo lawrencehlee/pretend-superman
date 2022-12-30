@@ -1,16 +1,7 @@
 <script lang="ts" setup>
-import { useUserStore } from "@/stores/user-store";
-import { onMounted } from "vue";
-import { useRouter } from "vue-router";
+import { useRequireAnonymous } from "@/composables/useRequireAnonymous";
 
-const userStore = useUserStore();
-const router = useRouter();
-
-onMounted(() => {
-  if (userStore.me) {
-    router.push("/communities");
-  }
-});
+useRequireAnonymous("/communities");
 </script>
 
 <template>

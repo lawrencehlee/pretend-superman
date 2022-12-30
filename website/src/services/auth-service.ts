@@ -5,12 +5,13 @@ import { supabase } from "@/services/supabase";
 export { login, logout, me };
 
 async function login() {
-  const { user, session, error } = await supabase.auth.signIn({
+  const { user, error } = await supabase.auth.signIn({
     provider: "discord",
   });
   if (error) {
     unknownError(error);
   }
+  return user;
 }
 
 async function logout() {

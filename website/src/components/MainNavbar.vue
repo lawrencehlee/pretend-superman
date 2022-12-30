@@ -5,8 +5,9 @@ import { onMounted } from "vue";
 import NavbarLink from "@/components/NavbarLink.vue";
 
 const userStore = useUserStore();
+
 onMounted(async () => {
-  await userStore.updateMe();
+  await userStore.updateMeWithRetry();
 });
 
 async function logout() {
@@ -15,8 +16,12 @@ async function logout() {
 }
 
 async function login() {
-  await AuthService.login();
-  await userStore.updateMe();
+  const user = await AuthService.login();
+  if (!user) {
+    // TODO - better handling
+    throw Error("No user");
+  }
+  await userStore.updateMePostLogin(user);
 }
 </script>
 
@@ -28,9 +33,6 @@ async function login() {
     <nav class="py-2 px-8 grid grid-flow-col justify-items-center">
       <NavbarLink>
         <RouterLink to="/">Home</RouterLink>
-      </NavbarLink>
-      <NavbarLink>
-        <RouterLink to="/about">About</RouterLink>
       </NavbarLink>
       <NavbarLink v-if="!userStore.me">
         <a href="#" @click="login">Login</a>

@@ -32,7 +32,10 @@ async function create() {
       maxlength="32"
       placeholder="my-toxic-wonderland"
       required
-      help="Lowercase alphanumeric and hyphens. A globally unique identifier that will appear in urls. Choose carefully!"
+      :help="
+        'Lowercase alphanumeric and hyphens. A globally unique identifier that will appear in urls.' +
+        'Choose carefully!'
+      "
       v-model="community.slug"
     >
     </TextInput>
