@@ -30,8 +30,8 @@ async function postCreated() {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       class="icon icon-tabler icon-tabler-social inline"
-      width="28"
-      height="28"
+      width="30"
+      height="30"
       viewBox="0 0 24 24"
       stroke-width="1.5"
       stroke="#65a30d"
@@ -61,7 +61,7 @@ async function postCreated() {
     </div>
     <div v-if="communities.length == 0">No communities found.</div>
   </div>
-  <div v-if="creating">
+  <div v-else>
     <CreateCommunityForm
       @cancelled="setCreating(false)"
       @created="postCreated()"
