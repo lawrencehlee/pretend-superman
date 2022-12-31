@@ -1,23 +1,29 @@
 <script lang="ts" setup>
-import { reactive } from "vue";
-import type { Community } from "@/services/communities-service";
+import {Ref, ref} from "vue";
+import type {Community} from "@/services/communities-service";
 import * as CommunitiesService from "@/services/communities-service";
 import * as MembersService from "@/services/members-service";
-import TextInput from "@/components/TextInput.vue";
+import StyledInput from "@/components/StyledInput.vue";
 import CancelButton from "@/components/CancelButton.vue";
 import CreateButton from "@/components/CreateButton.vue";
 import PageSubtitle from "@/components/PageSubtitle.vue";
 
 const emit = defineEmits(["created", "cancelled"]);
 
-const community: Community = reactive({});
+const community: Ref<Partial<Community>> = ref({});
 
 async function create() {
-  const created = await CommunitiesService.create(community);
-  if (!created.id) {
+  const { data } = await CommunitiesService.create(community.value);
+  if (!data || !data.id) {
+    // TODO
     throw Error("No community id");
   }
-  await MembersService.joinAsAdmin(created.id);
+
+  // No transactions :/
+  const { error } = await MembersService.joinAsAdmin(data.id);
+  if (error) {
+    await CommunitiesService.remove(data.id);
+  }
 
   emit("created");
 }
@@ -26,7 +32,7 @@ async function create() {
 <template>
   <PageSubtitle text="Create community"></PageSubtitle>
   <form>
-    <TextInput
+    <StyledInput
       label="Slug"
       pattern="^[a-z0-9]+(-[a-z0-9]+)*$"
       maxlength="32"
@@ -36,16 +42,16 @@ async function create() {
         'Lowercase alphanumeric and hyphens. A globally unique identifier that will appear in urls.' +
         'Choose carefully!'
       "
-      v-model="community.slug"
-    >
-    </TextInput>
-    <TextInput
+      v-model.trim="community.slug"
+     type="text">
+    </StyledInput>
+    <StyledInput
       label="Name"
       placeholder="My Toxic Wonderland"
       required
-      v-model="community.name"
-    >
-    </TextInput>
+      v-model.trim="community.name"
+     type="text">
+    </StyledInput>
   </form>
   <div class="flex flex-row justify-end gap-x-8">
     <CancelButton @click="$emit('cancelled')">Cancel</CancelButton>

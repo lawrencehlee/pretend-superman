@@ -1,8 +1,9 @@
 import { supabase } from "@/services/supabase";
 import { unknownError } from "@/services/errors";
-import { camelizeKeys } from "humps";
+import {camelizeKeys, decamelizeKeys} from "humps";
+import type { PostgrestError } from "@supabase/supabase-js";
 
-export { listMine, create, get, type Community };
+export { listMine, create, get, remove, type Community };
 
 interface Community {
   id?: number;
@@ -22,18 +23,20 @@ async function listMine(): Promise<Community[]> {
   return camelizeKeys(data) as Community[];
 }
 
-async function create(community: Community): Promise<Community> {
+async function create(
+  community: Partial<Community>
+): Promise<{ data?: Community; error?: PostgrestError }> {
   const { data, error } = await supabase
     .from("communities")
-    .insert(community)
+    .insert(decamelizeKeys(community))
     .select();
   if (error) {
-    throw error;
+    return { error: error };
   }
-  return camelizeKeys(data[0]);
+  return { data: camelizeKeys(data[0]) };
 }
 
-async function get(slug: string): Promise<Community | null> {
+async function get(slug: string): Promise<Readonly<Community> | null> {
   const { data, error } = await supabase
     .from("communities")
     .select()
@@ -46,4 +49,8 @@ async function get(slug: string): Promise<Community | null> {
     return null;
   }
   return camelizeKeys(data[0]);
+}
+
+async function remove(id: number) {
+  await supabase.from("communities").delete().eq("id", id);
 }

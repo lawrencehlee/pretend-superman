@@ -1,6 +1,7 @@
 import { supabase } from "@/services/supabase";
 import { unknownError } from "@/services/errors";
 import { camelizeKeys } from "humps";
+import type { PostgrestError } from "@supabase/supabase-js";
 
 export { type Member, joinAsAdmin, list };
 
@@ -15,15 +16,15 @@ interface User {
   readonly discordFullName: string;
 }
 
-async function joinAsAdmin(communityId: number) {
+async function joinAsAdmin(
+  communityId: number
+): Promise<{ error?: PostgrestError }> {
   const { error } = await supabase.from("members").insert({
     user_id: supabase.auth.user()?.id,
     community_id: communityId,
     role: "ADMIN",
   });
-  if (error) {
-    throw error;
-  }
+  return error ? { error: error } : {};
 }
 
 async function list(communityId: number): Promise<Member[]> {

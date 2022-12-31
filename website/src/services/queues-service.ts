@@ -1,22 +1,33 @@
 import {supabase} from "@/services/supabase";
 import {unknownError} from "@/services/errors";
-import {camelizeKeys} from "humps";
+import {camelizeKeys, decamelizeKeys} from "humps";
 
-export { type Queue, list };
+export {type Queue, type Team, listQueues, createQueue};
 
 interface Queue {
     id: number;
     communityId: number;
     name: string;
-    numTeams: number;
-    playersPerTeam: number;
-    numPlayers: number;
+    teams: Team[];
     algorithm: string;
-    settings: Record<string, never>
+    settings: Record<string, never>;
 }
 
-async function list(communityId: number): Promise<Queue[]> {
-    const { data, error } = await supabase
+interface Team {
+    id: number;
+    name: string;
+    size: number;
+}
+
+/**
+ * Represents JSON columns as strings
+ */
+interface DbQueue extends Omit<Queue, "teams"> {
+    teams: string;
+}
+
+async function listQueues(communityId: number): Promise<Queue[]> {
+    const {data, error} = await supabase
         .from("queues")
         .select()
         .eq("community_id", communityId);
@@ -24,5 +35,20 @@ async function list(communityId: number): Promise<Queue[]> {
         unknownError(error);
         return [];
     }
-    return camelizeKeys(data) as Queue[];
+    return (camelizeKeys(data) as object[])
+        .map((queue) => {
+            const typed = queue as DbQueue;
+            return {...typed, teams: JSON.parse(typed.teams)} as Queue;
+        });
+}
+
+async function createQueue(queue: Partial<Queue>) {
+    const toInsert: Partial<DbQueue> = decamelizeKeys({
+        ...queue,
+        teams: JSON.stringify(queue.teams)
+    }) as Partial<DbQueue>;
+    const {error} = await supabase.from("queues").insert(toInsert);
+    if (error) {
+        // TODO
+    }
 }

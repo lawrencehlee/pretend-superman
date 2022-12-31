@@ -41,7 +41,7 @@ watch(
 <template>
   <BreadcrumbTrail :crumbs="crumbs"></BreadcrumbTrail>
   <div v-if="!community">Not found TODO</div>
-  <div v-if="community">
+  <div v-else>
     <PageTitle :text="community.name" :suffix-subscript="community.slug">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -55,6 +55,7 @@ watch(
         stroke-linecap="round"
         stroke-linejoin="round"
       >
+        <title>Community</title>
         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
         <circle cx="12" cy="5" r="2" />
         <circle cx="5" cy="19" r="2" />
@@ -65,7 +66,9 @@ watch(
         <line x1="17.3" y1="17.8" x2="14.5" y2="15.8" />
       </svg>
     </PageTitle>
-    <QueuesList :community-id="community.id"></QueuesList>
+    <div class="mb-4">
+      <QueuesList :community-id="community.id"></QueuesList>
+    </div>
     <MembersTable :community-id="community.id"></MembersTable>
   </div>
 </template>

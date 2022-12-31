@@ -39,6 +39,7 @@ async function postCreated() {
       stroke-linecap="round"
       stroke-linejoin="round"
     >
+      <title>Communities</title>
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
       <circle cx="12" cy="5" r="2" />
       <circle cx="5" cy="19" r="2" />

@@ -1,17 +1,14 @@
 create table queues
 (
-    id               integer primary key generated always as identity,
-    community_id     integer references communities (id) on delete cascade,
-    name             varchar(255)                                                        not null,
-    num_teams        integer                                                             not null,
-    players_per_team integer                                                             not null,
-    num_players      integer generated always as ( num_teams * players_per_team ) stored not null,
-    algorithm        varchar(255)                                                        not null,
-    settings         jsonb                                                               not null default '{}'::json,
-    created_at       timestamp with time zone                                            not null default now()
+    id           integer primary key generated always as identity,
+    community_id integer references communities (id) on delete cascade,
+    name         varchar(255)             not null,
+    teams        jsonb                    not null,
+    algorithm    varchar(255)             not null,
+    settings     jsonb                    not null,
+    created_at   timestamp with time zone not null default now(),
+    unique (community_id, name)
 );
-
-comment on column queues.num_teams is '0 indicates FFA, 1 indicates co-op';
 
 alter table queues
     enable row level security;
