@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import {ref} from "vue";
+import { ref } from "vue";
 import StyledInput from "@/components/StyledInput.vue";
 import CancelButton from "@/components/CancelButton.vue";
 import CreateButton from "@/components/CreateButton.vue";
-import type {Queue, Team} from "@/services/queues-service";
+import type { Queue } from "@/services/queues-service";
 import DynamicRowsInput from "@/components/DynamicRowsInput.vue";
 import PageSubSubtitle from "@/components/PageSubSubtitle.vue";
-import {createQueue} from "@/services/queues-service";
+import { createQueue } from "@/services/queues-service";
 
 const props = defineProps<{
   communityId: number;
@@ -18,7 +18,7 @@ const queue = ref<Partial<Queue>>({
   communityId: props.communityId,
   algorithm: "Trueskill",
   teams: [],
-  settings: {}
+  settings: {},
 });
 
 async function create() {
@@ -31,14 +31,16 @@ async function create() {
   <PageSubSubtitle text="Create queue"></PageSubSubtitle>
   <form>
     <StyledInput
-        label="Name"
-        placeholder="Quickplay"
-        required
-        v-model.trim="queue.name"
-        type="text"
+      label="Name"
+      placeholder="Quickplay"
+      required
+      v-model.trim="queue.name"
+      type="text"
     >
     </StyledInput>
-    <DynamicRowsInput @update="(teams) => queue.teams = teams"></DynamicRowsInput>
+    <DynamicRowsInput
+      @update="(teams) => (queue.teams = teams)"
+    ></DynamicRowsInput>
   </form>
   <div class="flex flex-row justify-end gap-x-8">
     <CancelButton @click="$emit('cancelled')">Cancel</CancelButton>

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useRequireAnonymous } from "@/composables/useRequireAnonymous";
+import useRequireAnonymous from "@/composables/use-require-anonymous";
 
 useRequireAnonymous("/communities");
 </script>

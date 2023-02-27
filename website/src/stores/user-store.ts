@@ -19,7 +19,7 @@ export const useUserStore = defineStore("user", {
       await this.updateMe();
       if (!this.me) {
         // Crazy hack cause Supabase CLI doesn't immediately return a user after discord redirect
-        await new Promise((r) => setTimeout(r, 100));
+        await new Promise((r) => setTimeout(r, 300));
         await this.updateMe();
       }
     },

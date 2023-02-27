@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import {Ref, ref} from "vue";
-import type {Community} from "@/services/communities-service";
+import { Ref, ref } from "vue";
+import type { Community } from "@/services/communities-service";
 import * as CommunitiesService from "@/services/communities-service";
 import * as MembersService from "@/services/members-service";
 import StyledInput from "@/components/StyledInput.vue";
@@ -43,14 +43,16 @@ async function create() {
         'Choose carefully!'
       "
       v-model.trim="community.slug"
-     type="text">
+      type="text"
+    >
     </StyledInput>
     <StyledInput
       label="Name"
       placeholder="My Toxic Wonderland"
       required
       v-model.trim="community.name"
-     type="text">
+      type="text"
+    >
     </StyledInput>
   </form>
   <div class="flex flex-row justify-end gap-x-8">

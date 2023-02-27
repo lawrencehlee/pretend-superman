@@ -1,17 +1,15 @@
 import { supabase } from "@/services/supabase";
 import { unknownError } from "@/services/errors";
-import {camelizeKeys, decamelizeKeys} from "humps";
+import { camelizeKeys, decamelizeKeys } from "humps";
 import type { PostgrestError } from "@supabase/supabase-js";
 
-export { listMine, create, get, remove, type Community };
-
-interface Community {
+export interface Community {
   id?: number;
   slug?: string;
   name?: string;
 }
 
-async function listMine(): Promise<Community[]> {
+export async function listMine(): Promise<Community[]> {
   const { data, error } = await supabase
     .from("communities")
     .select("id, slug, name, created_at, members!inner (user_id) ")
@@ -23,7 +21,7 @@ async function listMine(): Promise<Community[]> {
   return camelizeKeys(data) as Community[];
 }
 
-async function create(
+export async function create(
   community: Partial<Community>
 ): Promise<{ data?: Community; error?: PostgrestError }> {
   const { data, error } = await supabase
@@ -36,7 +34,9 @@ async function create(
   return { data: camelizeKeys(data[0]) };
 }
 
-async function get(slug: string): Promise<Readonly<Community> | null> {
+export async function getBySlug(
+  slug: string
+): Promise<Readonly<Community> | null> {
   const { data, error } = await supabase
     .from("communities")
     .select()
@@ -51,6 +51,21 @@ async function get(slug: string): Promise<Readonly<Community> | null> {
   return camelizeKeys(data[0]);
 }
 
-async function remove(id: number) {
+export async function getById(id: number): Promise<Readonly<Community> | null> {
+  const { data, error } = await supabase
+    .from("communities")
+    .select()
+    .eq("id", id);
+  if (error) {
+    unknownError(error);
+    throw error;
+  }
+  if (data?.length !== 1) {
+    return null;
+  }
+  return camelizeKeys(data[0]);
+}
+
+export async function remove(id: number) {
   await supabase.from("communities").delete().eq("id", id);
 }

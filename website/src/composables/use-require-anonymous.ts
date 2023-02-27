@@ -2,7 +2,7 @@ import { useUserStore } from "@/stores/user-store";
 import { useRouter } from "vue-router";
 import { onMounted } from "vue";
 
-export function useRequireAnonymous(redirectPath: string) {
+export default function useRequireAnonymous(redirectPath: string) {
   const userStore = useUserStore();
   const router = useRouter();
 

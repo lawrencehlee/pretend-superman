@@ -1,45 +1,36 @@
 <script lang="ts" setup>
-import { computed, onMounted, ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import type { Community } from "@/services/communities-service";
-import { get } from "@/services/communities-service";
+import { getById } from "@/services/communities-service";
 import { useRoute } from "vue-router";
-import { collapseToString } from "@/lib/utils";
+import { collapseToInt } from "@/lib/utils";
 import PageTitle from "@/components/PageTitle.vue";
 import BreadcrumbTrail from "@/components/BreadcrumbTrail.vue";
-import type Breadcrumb from "@/services/breadcrumb";
-import { useRequireLogin } from "@/composables/useRequireLogin";
+import useRequireLogin from "@/composables/use-require-login";
 import MembersTable from "@/components/MembersTable.vue";
+import useBreadcrumbs from "@/composables/use-breadcrumbs";
 import QueuesList from "@/components/QueuesList.vue";
 
 useRequireLogin();
 
 const community = ref<Community>();
 const route = useRoute();
-const crumbs = computed<Breadcrumb[]>(() => [
-  {
-    name: "Communities",
-    path: "/communities",
-  },
-  {
-    name: community?.value?.slug,
-    path: route.path,
-  },
-]);
+const breadcrumbs = useBreadcrumbs();
 onMounted(async () => {
   community.value =
-    (await get(collapseToString(route.params.slug))) ?? undefined;
+    (await getById(collapseToInt(route.params.communityId))) ?? undefined;
 });
 
 watch(
-  () => route.params.slug,
-  async (newSlug) => {
-    community.value = (await get(collapseToString(newSlug))) ?? undefined;
+  () => route.params.communityId,
+  async (newId) => {
+    community.value = (await getById(collapseToInt(newId))) ?? undefined;
   }
 );
 </script>
 
 <template>
-  <BreadcrumbTrail :crumbs="crumbs"></BreadcrumbTrail>
+  <BreadcrumbTrail :crumbs="breadcrumbs"></BreadcrumbTrail>
   <div v-if="!community">Not found TODO</div>
   <div v-else>
     <PageTitle :text="community.name" :suffix-subscript="community.slug">

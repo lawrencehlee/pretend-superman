@@ -54,7 +54,7 @@ async function postCreated() {
     <CreateButton @click="setCreating(true)">+ Create</CreateButton>
     <div v-if="communities.length > 0">
       <div v-for="community in communities" :key="community.id">
-        <NormalLink :to="`/communities/${community.slug}`">
+        <NormalLink :to="`/communities/${community.id}`">
           <span class="text-xl">{{ community.name }}</span>
           <SubscriptText :text="community.slug"></SubscriptText>
         </NormalLink>

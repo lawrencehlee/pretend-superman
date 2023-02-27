@@ -18,7 +18,7 @@ interface Props {
 withDefaults(defineProps<Props>(), {
   showLabel: true,
   applyMargins: true,
-  inputClass: ""
+  inputClass: "",
 });
 defineEmits<{
   (e: "update", modelValue: string): void;
@@ -32,16 +32,16 @@ defineEmits<{
       <SubscriptText text="required"></SubscriptText>
     </label>
     <input
-        :value="modelValue"
-        @input="$emit('update:modelValue', $event.target.value)"
-        :name="label.toLowerCase()"
-        :type="type"
-        :placeholder="placeholder ?? label"
-        :pattern="pattern"
-        :required="required"
-        :maxlength="maxlength"
-        class="py-1 rounded-lg bg-zinc-100 px-2 invalid:border-red-600"
-        :class="inputClass"
+      :value="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
+      :name="label.toLowerCase()"
+      :type="type"
+      :placeholder="placeholder ?? label"
+      :pattern="pattern"
+      :required="required"
+      :maxlength="maxlength"
+      class="py-1 rounded-lg bg-zinc-100 px-2 invalid:border-red-600"
+      :class="inputClass"
     />
     <p v-if="help" class="text-xs text-zinc-500">{{ help }}</p>
   </div>

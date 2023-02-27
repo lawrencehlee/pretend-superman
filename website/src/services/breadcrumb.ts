@@ -1,4 +1,4 @@
-export default interface Breadcrumb {
-  name?: string;
-  path?: string;
+export interface Breadcrumb {
+  name: string;
+  path: string;
 }

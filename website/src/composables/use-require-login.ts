@@ -2,7 +2,7 @@ import { useUserStore } from "@/stores/user-store";
 import { useRouter } from "vue-router";
 import { onMounted } from "vue";
 
-export function useRequireLogin() {
+export default function useRequireLogin() {
   const userStore = useUserStore();
   const router = useRouter();
 
