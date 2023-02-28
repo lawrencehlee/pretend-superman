@@ -35,10 +35,7 @@ async function listQueues(communityId: number): Promise<Queue[]> {
     unknownError(error);
     return [];
   }
-  return (camelizeKeys(data) as object[]).map((queue) => {
-    const typed = queue as DbQueue;
-    return { ...typed, teams: JSON.parse(typed.teams) } as Queue;
-  });
+  return (camelizeKeys(data) as object[]).map(construct);
 }
 
 async function createQueue(queue: Partial<Queue>) {
@@ -50,4 +47,21 @@ async function createQueue(queue: Partial<Queue>) {
   if (error) {
     // TODO
   }
+}
+
+export async function getQueue(id: number): Promise<Readonly<Queue> | null> {
+  const { data, error } = await supabase.from("queues").select().eq("id", id);
+  if (error) {
+    unknownError(error);
+    throw error;
+  }
+  if (data?.length !== 1) {
+    return null;
+  }
+  return construct(camelizeKeys(data[0]));
+}
+
+function construct(queueAsObject: object): Queue {
+  const typed = queueAsObject as DbQueue;
+  return { ...typed, teams: JSON.parse(typed.teams) } as Queue;
 }

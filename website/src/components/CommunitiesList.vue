@@ -12,7 +12,7 @@ const communities: Ref<Community[]> = ref([]);
 const creating = ref(false);
 
 onMounted(async () => {
-  communities.value = await CommunitiesService.listMine();
+  communities.value = await CommunitiesService.listMyCommunities();
 });
 
 function setCreating(value: boolean) {
@@ -21,7 +21,7 @@ function setCreating(value: boolean) {
 
 async function postCreated() {
   setCreating(false);
-  communities.value = await CommunitiesService.listMine();
+  communities.value = await CommunitiesService.listMyCommunities();
 }
 </script>
 

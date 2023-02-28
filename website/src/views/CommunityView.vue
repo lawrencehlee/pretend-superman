@@ -1,32 +1,20 @@
 <script lang="ts" setup>
-import { onMounted, ref, watch } from "vue";
-import type { Community } from "@/services/communities-service";
-import { getById } from "@/services/communities-service";
-import { useRoute } from "vue-router";
-import { collapseToInt } from "@/lib/utils";
+import { getCommunity } from "@/services/communities-service";
 import PageTitle from "@/components/PageTitle.vue";
 import BreadcrumbTrail from "@/components/BreadcrumbTrail.vue";
 import useRequireLogin from "@/composables/use-require-login";
 import MembersTable from "@/components/MembersTable.vue";
 import useBreadcrumbs from "@/composables/use-breadcrumbs";
 import QueuesList from "@/components/QueuesList.vue";
+import useResourceByRouteId from "@/composables/use-resource-by-id";
 
 useRequireLogin();
 
-const community = ref<Community>();
-const route = useRoute();
-const breadcrumbs = useBreadcrumbs();
-onMounted(async () => {
-  community.value =
-    (await getById(collapseToInt(route.params.communityId))) ?? undefined;
-});
-
-watch(
-  () => route.params.communityId,
-  async (newId) => {
-    community.value = (await getById(collapseToInt(newId))) ?? undefined;
-  }
+const community = useResourceByRouteId(
+  (route) => route.params.communityId,
+  getCommunity
 );
+const breadcrumbs = useBreadcrumbs();
 </script>
 
 <template>

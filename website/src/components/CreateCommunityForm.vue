@@ -13,7 +13,7 @@ const emit = defineEmits(["created", "cancelled"]);
 const community: Ref<Partial<Community>> = ref({});
 
 async function create() {
-  const { data } = await CommunitiesService.create(community.value);
+  const { data } = await CommunitiesService.createCommunity(community.value);
   if (!data || !data.id) {
     // TODO
     throw Error("No community id");
@@ -22,7 +22,7 @@ async function create() {
   // No transactions :/
   const { error } = await MembersService.joinAsAdmin(data.id);
   if (error) {
-    await CommunitiesService.remove(data.id);
+    await CommunitiesService.deleteCommunity(data.id);
   }
 
   emit("created");
