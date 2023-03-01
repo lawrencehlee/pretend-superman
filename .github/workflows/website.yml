@@ -17,6 +17,7 @@ jobs:
         with:
           node-version: 19
           cache: 'npm'
+          cache-dependency-path: 'website/package-lock.json'
       - name: Install dependencies
         run: npm install
       - name: Run tests
