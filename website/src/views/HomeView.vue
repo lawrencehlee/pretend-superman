@@ -1,11 +1,14 @@
 <script lang="ts" setup>
-import { useMyUserStore } from "@/stores/my-user";
+import useRequireAnonymous from "@/composables/use-require-anonymous";
 
-const myUserStore = useMyUserStore();
+useRequireAnonymous("/communities");
 </script>
 
 <template>
   <main>
-    <div v-if="myUserStore.me">{{ myUserStore.me }}</div>
+    <p>
+      Chilli is a simple yet flexible bot for facilitating online pick-up games
+      (PUGs). Login with Discord to get started.
+    </p>
   </main>
 </template>

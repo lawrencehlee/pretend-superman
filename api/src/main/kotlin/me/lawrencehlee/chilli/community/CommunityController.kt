@@ -1,25 +1,29 @@
 package me.lawrencehlee.chilli.community
 
+import io.micronaut.http.HttpStatus
+import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
+import io.micronaut.http.annotation.Post
+import io.micronaut.security.annotation.Secured
+import io.micronaut.security.authentication.Authentication
+import io.micronaut.security.rules.SecurityRule
+import org.slf4j.LoggerFactory
 
-@Controller("communities")
-class CommunityController() {
+@Secured(SecurityRule.IS_AUTHENTICATED)
+@Controller("api/communities")
+class CommunityController(private val communityRepository: CommunityRepository) {
+    private val logger = LoggerFactory.getLogger(this::class.java)
+
     @Get
-    fun index(): Any {
-        return object {
-            val hello = "world"
-        }
+    fun query(authentication: Authentication): Iterable<Community> {
+        logger.info(authentication.toString())
+        return communityRepository.findAll()
     }
 
-//    fun create(@RequestBody community: Community): ResponseEntity<Community> {
-//        val created = communityRepository.save(community)
-//        return ResponseEntity.created(URI("/communities/${created.id}")).body(created)
-//    }
-
-//    @PutMapping("{communityId}/users/{userId}")
-//    fun addUser(@PathVariable communityId: Long, @PathVariable userId: Long): ResponseEntity<Any> {
-//        communityRepository.addUser(communityId, userId)
-//        return ResponseEntity.noContent().build();
-//    }
+    @Post
+    fun create(@Body community: Community): HttpStatus {
+        communityRepository.save(community)
+        return HttpStatus.CREATED
+    }
 }
