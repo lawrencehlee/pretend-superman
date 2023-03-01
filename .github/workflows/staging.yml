@@ -4,7 +4,7 @@ on:
   workflow_run:
     workflows: [Website CI]
     types: [completed]
-#    branch: [main]
+    branch: [main]
 
 jobs:
   deploy-supabase:
