@@ -2,7 +2,7 @@ name: deploy-staging
 
 on:
   workflow_run:
-    workflows: [website-ci]
+    workflows: [Website CI]
     types: [completed]
     branch: [staging]
   workflow_dispatch:

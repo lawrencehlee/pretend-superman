@@ -1,4 +1,4 @@
-name: website-ci
+name: Website CI
 
 on: [ push ]
 
