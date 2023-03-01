@@ -1,22 +1,22 @@
-name: deploy-staging
+name: Deploy staging
 
 on:
   workflow_run:
     workflows: [Website CI]
     types: [completed]
-    branch: [staging]
-  workflow_dispatch:
+#    branch: [main]
 
 jobs:
   deploy-supabase:
     runs-on: ubuntu-22.04
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     environment:
       name: staging
 
     env:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
-      SUPABASE_PROJECT_ID: ${{ var.SUPABASE_PROJECT_ID }}
+      SUPABASE_PROJECT_ID: ${{ vars.SUPABASE_PROJECT_ID }}
 
     steps:
       - uses: actions/checkout@v3
