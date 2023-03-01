@@ -1,6 +1,11 @@
 name: website-ci
 
 on: [ push ]
+
+defaults:
+  run:
+    working-directory: website
+
 jobs:
   build:
     runs-on: ubuntu-latest
